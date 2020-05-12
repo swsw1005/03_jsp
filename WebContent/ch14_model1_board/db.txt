@@ -1,0 +1,49 @@
+게시판
+
+게시판
+
+utf-8설정
+
+글쓰기 --- Write.jsp (html 디자인) --- WriteSave.jsp
+글목록 --- List.jsp
+글내용 --- Content.jsp
+글수정 --- Edit.jsp(수정폼)---EditSave.jsp
+글삭제 --- Delete.jsp(삭제폼)---DeleteSave.jsp
+
+
+
+Q&N
+faq
+공지사항
+======================================
+1. DB 작업
+C:\>cd C:\MySQL5.5\bin
+
+C:\MySQL5.5\bin>mysql -u root -p
+Enter password: *****
+
+
+create database mydb1;
+use  mydb1;
+
+create table myboard(
+num int not null auto_increment primary key,
+writer varchar(30) not null,
+subject varchar(40) not null,
+email varchar(40) not null,
+content text not null,
+pwd varchar(20) not null,
+wdate date,
+readcount int unsigned default 0,
+ip varchar(30)
+);
+-----------------------
+num int not null auto_increment primary key,---일련번호
+writer varchar(30) not null, -----글쓴이
+subject varchar(40) not null,---글제목
+email varchar(40) not null,---이메일
+content text not null,---------글내용
+pwd varchar(20) not null,------암호
+wdate date,--------------------날짜
+readcount int unsigned default 0,--조회횟수
+ip varchar(30)---------------클라이언트 ip

@@ -1,0 +1,30 @@
+?? pageContext   javax.servlet.jsp.PageContext
+
+
+현재 JSP 페이지의 컨텍스트(Context)를 나타내며, 주로 다른 내장 객체를 구하거나 페이지의 흐름 제어 그리고 에러 데이터를 얻어낼 때 사용된다.
+
+
+ ServletRequest getRequest()
+페이지 요청 정보를 가지고 있는 request 내장 객체를 리턴한다. 
+
+ServletResponse getResponse() 
+페이지 요청에 대한 응답 정보를 가지고 있는 response 내장 객체를 리턴한다. 
+
+JSPWriter getOut() 
+페이지 요청에 대한 출력 스트림인 out 내장 객체를 리턴한다. 
+
+HttpSession getSessoin() 
+요청한 웹 브라우저의 세션 정보를 담고 있는 session 내장 객체를 리턴한다. 
+
+ServletContext getServletContext() 
+페이지에 대한 서블릿 실행 환경 정보를 담고 있는 application 내장 객체를 리턴한다. 
+
+Object getPage() 
+page 내장 객체를 리턴한다. 
+
+ServletConfig getServletConfig() 
+해당 페이지의 서블릿 초기 정보 설정 정보를 담고 있는 config 내장 객체를 리턴한다. 
+
+Exception getException() 
+페이지 실행 중에 발생되는 에러 페이지에 대한 예외 정보를 갖고 있는 exception 내장 객체를 리턴한다. 
+

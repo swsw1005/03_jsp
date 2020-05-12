@@ -1,0 +1,23 @@
+forward 액션 태그는 다른 페이지로 프로그램의 제어를 이동할 때 사용되는 액션 태그이다.
+
+<>   redirect ?? : 새로페이지 요청과 같은 효과
+                    request, reponse 초기화
+                    이동 url 화면에 출력
+                    reponse.sendRedirect("aa/jsp");
+
+
+<jsp:forward page="abc.jsp" />
+
+<jsp:forward page="https://www.naver.com"></jsp:forward>
+
+<jsp:forward page='<%=expression + ".jsp"%>' />
+
+
+- forward 액션 태그에서 포워딩되는 페이지에 파라미터 값을 전달할 수 있다.
+
+<jsp:forward page="abc.jsp">
+    <jsp:param name="paramName1" value="var1" />
+    <jsp:param name="paramName2" value="var2" />
+</jsp:forward>
+
+

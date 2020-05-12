@@ -1,0 +1,21 @@
+갣체는 클래스 변수이다=객체=인스턴스
+ 
+내장 객체 종류
+1. out
+2. request  :클라언트 요청할때 사용되는 요청객체
+3. response  : 서버가 클라이언트로 응답할때 사용되는 응답객체
+
+4. application  : 03_jsp(프로젝트=어프릴케이션) , ROOT
+                 *.java 
+                 *.jsp 
+                 *.html  *.css *.js(JavaScript,jQueury)  
+5. pageContext
+6. config
+7. page
+8. exception
+9. session
+   cookie
+Test01_out.jsp
+
+Test02_request.jsp  
+Test03_response.jsp

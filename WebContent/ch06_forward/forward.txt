@@ -1,0 +1,15 @@
+forward 액션태그
+
+<jsp:forward page="*.jsp" />            로컬url만 가능(외부 불가능)
+
+<jsp:forward page="*.jsp">
+    <jsp:param name="" value=""/>
+    <jsp:param name="" value=""/>
+</jsp:forward>
+
+
+
+
+forwardForm.jsp
+forwardPro.jsp
+forwardPro2.jsp
