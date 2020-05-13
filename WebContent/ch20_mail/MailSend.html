@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+
+<body>
+    <form action="MailSend.jsp" method="post">
+        <table>
+            <tr>
+                <td>FROM 메일주소</td>
+                <td><input type="text" name="from" id="from" /></td>
+            </tr>
+            <tr>
+                <td>TO 메일주소</td>
+                <td><input type="text" name="to" id="to" /></td>
+            </tr>
+            <tr>
+                <td>제목</td>
+                <td><input type="text" name="title" id="title" /></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <textarea name="content" id="content" cols="60" rows="10"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input type="submit" value="메일 보내기" />
+                    <input type="reset" value="입력 취소" />
+                </td>
+            </tr>
+        </table>
+    </form>
+</body>
+
+</html>
