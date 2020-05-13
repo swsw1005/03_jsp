@@ -22,11 +22,20 @@
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
+<%-- jquery 3.4.1 --%>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
 <style>
 * {
 	margin: 0px;
 	padding: 0px;
+}
+
+td {
+	border: 1px solid violet;
+	text-align : center;
+	padding : 5px;
 }
 </style>
 <script>
@@ -36,36 +45,35 @@
 <body>
 	<!-- 내용 -->
 	<h2>WriteForm.jsp</h2>
+	<%
+		//자바 구문
+	%>
+	<form action="WriteSave.jsp" method="post">
 
-	<form method="post" action="WriteSave.jsp">
 		<table>
 			<tr>
-				<td align="center" colspan="2"><font size="5">게시판 글쓰기</font></td>
+				<td>작성자</td>
+				<td><input type="text" name="name" id="name"></td>
+			</tr>
+			<tr>
+				<td>제목</td>
+				<td><input type="text" name="title" id="title"></td>
+			</tr>
+			<tr>
+				<td>내용</td>
+				<td><textarea name="content" id="content" cols="30" rows="10"></textarea>
+				</td>
 			</tr>
 
 			<tr>
-				<td>이름</td>
-				<td><input type="text" name="name" size="30"></td>
+				<td></td>
+				<td><input type="submit" value="등록"  class="btn btn-primary" />
+				</td>
 			</tr>
-			<tr>
-				<td>글제목</td>
-				<td><input type="text" name="title" size="50"></td>
-			</tr>
-			<tr>
-				<td>글내용</td>
-				<td><textarea name="content" rows="10" cols="60"></textarea></td>
-			</tr>
-			<tr>
-				<td colspan="2" align="center"><input type="submit" value="전송"
-					class="btn btn-primary"> <input type="reset" value="취소"
-					class="btn btn-primary"> <a href="List.jsp"
-					class="btn btn-primary">글목록</a></td>
-
-			</tr>
-
 		</table>
 
 	</form>
+
 
 
 </body>

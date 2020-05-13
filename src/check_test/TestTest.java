@@ -1,6 +1,5 @@
 package check_test;
 
-import java.text.SimpleDateFormat;
 
 import javax.servlet.http.HttpServlet;
 

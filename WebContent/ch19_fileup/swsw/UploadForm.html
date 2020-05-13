@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <p>
+      파일 업로드를 하기 위해선 form 태그에 enctype="multipart/form-data" 부분이
+      명시되어야 한다.
+    </p>
+    <p>
+      또한 파일을 선택할수 있는 input 박스는 type을 file로 지정하면 된다. input
+      type="file"
+    </p>
+
+    <form
+      name="fileForm"
+      id="fileForm"
+      method="POST"
+      action="UploadOK.jsp"
+      enctype="multipart/form-data"
+    >
+      <input type="text" name="title" id="title" />
+      <input type="file" name="uploadFile" id="uploadFile" />
+      <input type="submit" value="전송" />
+    </form>
+  </body>
+</html>

@@ -3,15 +3,11 @@ package board1;
 import java.sql.*;
 import java.util.*;
 
+import dbinfo.DBInfo;
 import lombok.Getter;
 
 @Getter
 public class BoardDAO {
-
-	private static final String DRIVER = "com.mysql.jdbc.Driver";
-	private static final String URL = "jdbc:mysql://localhost:3306/mydb";
-	private static final String USER = "root";
-	private static final String PWD = "12345";
 
 	Connection con = null;
 	PreparedStatement pstmt = null;
@@ -20,7 +16,7 @@ public class BoardDAO {
 
 	public BoardDAO() {
 		try {
-			Class.forName(DRIVER);
+			Class.forName(DBInfo.DRIVER);
 			System.out.println("드라이버 로딩 성공");
 		} catch (Exception e) {
 			System.out.println("!!드라이버 로딩 실패");
@@ -31,7 +27,7 @@ public class BoardDAO {
 	public Connection getCon() {
 		Connection con = null;
 		try {
-			con = DriverManager.getConnection(URL, USER, PWD);
+			con = DriverManager.getConnection(DBInfo.URL, DBInfo.USER, DBInfo.PWD);
 			System.out.println("DB conn YES");
 		} catch (Exception e) {
 			System.out.println("DB conn NO NO");
@@ -209,6 +205,67 @@ public class BoardDAO {
 	} // getContent(int no) end
 
 	// ------------------------------------
+	public void updateDB(BoardDTO dto) {
+
+		try {
+			con = getCon();// DB연결
+			String sql = "update  board1 set title= ?, content= ? where num= ?";
+
+			pstmt = con.prepareStatement(sql); // 생성시 인자가 들어간다
+
+			pstmt.setString(1, dto.getTitle());
+			pstmt.setString(2, dto.getContent());
+			pstmt.setInt(3, dto.getNum());
+
+			pstmt.executeUpdate(); // 쿼리 실행 -> 데이터가 DB에 저장된다.
+
+		} catch (SQLException ex3) {
+			System.out.println("updateDB() 예외: " + ex3);
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (con != null) {
+					con.close();
+				}
+			} catch (Exception ex7) {
+
+			}
+		}
+	} // updateDB() end
+
+	// ------------------------------------
+	public void deleteDB(int num) {
+
+		try {
+			con = getCon();// DB연결
+			String sql = "delete from board1 where num= ?";
+
+			pstmt = con.prepareStatement(sql); // 생성시 인자가 들어간다
+
+			pstmt.setInt(1, num);
+
+			pstmt.executeUpdate(); // 쿼리 실행 -> 데이터가 DB에 저장된다.
+
+		} catch (SQLException ex3) {
+			System.out.println("updateDB() 예외: " + ex3);
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (con != null) {
+					con.close();
+				}
+			} catch (Exception ex7) {
+
+			}
+		}
+	} // updateDB() end
+
+	// ------------------------------------
+
 	public static void main(String[] args) {
 	}
 

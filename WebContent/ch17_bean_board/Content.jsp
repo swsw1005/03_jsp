@@ -74,7 +74,7 @@ td {
 		</tr>
 		<tr>
 			<td>내용</td>
-			<td><%=dto.getContent()%></td>
+			<td><pre><%=dto.getContent()%></pre></td>
 		</tr>
 		<tr>
 			<td>날짜</td>
@@ -83,6 +83,18 @@ td {
 		<tr>
 			<td>조회수</td>
 			<td><%=dto.getReadcount()%></td>
+		</tr>
+
+		<tr>
+			<td></td>
+			<td><a href="List.jsp" class="btn btn-primary">글목록</a> <a
+				href="WriteForm.jsp" class="btn btn-primary">글쓰기</a></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td><a href="UpdateForm.jsp?num=<%=dto.getNum()%>"
+				class="btn btn-primary">글수정</a> <a
+				href="Delete.jsp?num=<%=dto.getNum()%>" class="btn btn-primary">글삭제</a></td>
 		</tr>
 	</table>
 

@@ -1,0 +1,11 @@
+create table board2(
+num int  auto_increment primary key,
+ title varchar(30) not null,
+ name varchar(30) not null,
+ content text
+);
+
+board2.BoardDAO.java 
+board2.BoardDTO.java
+
+
