@@ -1,0 +1,31 @@
+drop database mydb11;
+
+create database mydb11;
+
+use mydb11
+
+create table board(
+num int not null primary key auto_increment,
+name varchar(30) not null,
+email varchar(60),
+subject varchar(40) not null,
+content text not null,
+pos int,
+depth int,
+regdate Date,
+pass varchar(20) not null,
+count int default 0,
+ip varchar(20)
+);
+
+desc board;
+;
+
+
+
+
+ update board set depth = ( depth + 1)  where subject like '%나마%';
+ 
+ select count(*) from board;
+ 
+ 
