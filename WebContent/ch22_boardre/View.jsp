@@ -21,8 +21,7 @@
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <!-- jquery 3.4.1 -->
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
 
 <style>
@@ -41,6 +40,17 @@ pre {
 </style>
 <script>
 	// 스크립트
+
+	//btnToUpdate
+	$(function() {
+
+		$("#btnToUpdate").click(function() {
+			var form = document.listForm;
+
+			form.submit();
+		});
+
+	});
 </script>
 </head>
 <body>
@@ -52,7 +62,7 @@ pre {
 		dao.upPos();
 
 		int num = Integer.parseInt(request.getParameter("num").trim());
-		int nowPage = Integer.parseInt(request.getParameter("page"));
+		int nowPage = Integer.parseInt(request.getParameter("nowPage"));
 		String keyField = request.getParameter("keyField");
 		String keyWord = request.getParameter("keyWord");
 
@@ -115,8 +125,7 @@ pre {
 							<!-- 버튼1 -->
 							<a href="WriteForm.jsp" class="btn btn-default">새 글 쓰기</a>
 							<!-- 버튼2 -->
-							<a href="UpdateForm.jsp?no=<%=num%>"
-								class="btn btn-default cancelBtn">수정하기</a>
+							<button id="btnToUpdate" class="btn btn-default cancelBtn">수정하기</button>
 							<!-- 버튼3 -->
 							<a href="List.jsp" class="btn btn-default cancelBtn">목록보기</a>
 							<!-- 버튼4 -->
@@ -130,25 +139,28 @@ pre {
 		</table>
 
 		<br>
-		<hr>
 		<br>
 
 
 		<%
 			if (keyWord == null || keyWord.equals("")) {//전체List
 		%>
-		<form name="listForm" method="post">
-			<input type="hidden" name="num" value="<%=num%>"> <input
-				type="hidden" name="page" value="<%=nowPage%>">
+		<form name="listForm" method="post" action="UpdateForm.jsp">
+			<input type="text" name="num" value="<%=num%>">
+			<!-- .............................................................................. -->
+			<input type="text" name="nowPage" value="<%=nowPage%>">
 		</form>
 		<%
-			} else {//검색글 리스트
+			} else {//검색한 경우
 		%>
-		<form name="listForm" method="post">
-			<input type="hidden" name="num" value="<%=num%>"> <input
-				type="hidden" name="page" value="<%=nowPage%>"> <input
-				type="hidden" name="keyWord" value="<%=keyWord%>"> <input
-				type="hidden" name="keyField" value="<%=keyField%>">
+		<form name="listForm" method="post" action="UpdateForm.jsp">
+			<input type="text" name="num" value="<%=num%>">
+			<!-- .............................................................................. -->
+			<input type="text" name="nowPage" value="<%=nowPage%>">
+			<!-- .............................................................................. -->
+			<input type="text" name="keyWord" value="<%=keyWord%>">
+			<!-- .............................................................................. -->
+			<input type="text" name="keyField" value="<%=keyField%>">
 		</form>
 		<%
 			}//else end

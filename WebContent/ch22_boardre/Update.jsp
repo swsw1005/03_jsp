@@ -15,14 +15,15 @@
 	String subject = request.getParameter("subject");
 	String content = request.getParameter("content");
 	String name = request.getParameter("name");
-	
-	int nowPage = Integer.parseInt(request.getParameter("nowPage"));
+
+	int nowPage = Integer.parseInt(request.getParameter("nowPage")
+			.trim());
 
 	String keyField = request.getParameter("keyField");
 	String keyWord = request.getParameter("keyWord");
 
 	// 2. DTO CREATE + SETTER
-	BoardDTO dto = new BoardDTO();
+	boardre.BoardDTO dto = new boardre.BoardDTO();
 	dto.setNum(num);
 	dto.setSubject(subject);
 	dto.setContent(content);
@@ -36,19 +37,26 @@
 	dao.update(dto);
 
 	// 글보기로 자동 이동시킨다.
-	response.sendRedirect("View.jsp?no=" + num);
+	//response.sendRedirect("View.jsp?no=" + num);
 %>
 
+<script>
+window.onload = function () {
+	var form = document.readForm;
+	form.submit();
+}
+</script>
+
 <%--readForm  자바스크립트를 함께 사용 --%>
-	<form name="readForm" method="post">
-		<!-- num값은 javascript 에서 넣었음 -->
-		<input type="hidden" name="num" value="">
-		<!--  -->
-		<input type="hidden" name="page" value="<%=nowPage%>">
-		<!--  -->
-		<input type="hidden" name="keyField" value="<%=keyField%>">
-		<!--  -->
-		<input type="hidden" name="keyWord" value="<%=keyWord%>">
-		<!--  -->
-	</form>
+<form name="readForm" method="post" action="View.jsp">
+	<!-- num값은 javascript 에서 넣었음 -->
+	<input type="hidden" name="num" value="<%=num%>">
+	<!--  -->
+	<input type="hidden" name="nowPage" value="<%=nowPage%>">
+	<!--  -->
+	<input type="hidden" name="keyField" value="<%=keyField%>">
+	<!--  -->
+	<input type="hidden" name="keyWord" value="<%=keyWord%>">
+	<!--  -->
+</form>
 

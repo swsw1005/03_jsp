@@ -1,4 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page
+	language="java"
+	contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="java.util.*"%>
 <%@ page import="java.sql.*"%>
@@ -12,12 +14,14 @@ System.out.println("------ List.jsp --- ");
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport"
+<meta
+	name="viewport"
 	content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>List.jsp</title>
 
 <!-- bootstrap 3.4.1 -->
-<link rel="stylesheet"
+<link
+	rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
@@ -74,7 +78,7 @@ System.out.println("------ List.jsp --- ");
 	function read(value1) {//value1 글번호
 		document.readForm.action = "View.jsp";//글내용 보기 
 		document.readForm.num.value = value1;//글번호값 넣기
-		document.readForm.submit();//서버로 전송 Content.jsp 로 간다 
+		document.readForm.submit();
 	}
 </script>
 </head>
@@ -156,8 +160,10 @@ System.out.println("------ List.jsp --- ");
 			%>
 			<table class="table">
 				<tr>
-					<td colspan="5" align="center">Total:<%=totalRecord%>&nbsp;&nbsp;
-						(<font color="blue"><%=nowPage + 1%>/<%=totalPage%></font>)
+					<td
+						colspan="5"
+						align="center">Total:<%=totalRecord%>&nbsp;&nbsp; (<font
+						color="blue"><%=nowPage + 1%>/<%=totalPage%></font>)
 					</td>
 				</tr>
 
@@ -207,8 +213,8 @@ System.out.println("------ List.jsp --- ");
 											out.println("<strong>┗</strong>");
 										}//for
 									}//if
-						%> <!-- 글제목을 클릭하면 글내용보기로 가기  **********--> <!--  --> <!--  --> <a
-						href="javaScript:read('<%=num%>')"><%=subject%></a>
+						%> <!-- 글제목을 클릭하면 글내용보기로 가기  ***********************************************************-->
+						<a href="javaScript:read('<%=num%>')"><%=subject%></a>
 					</td>
 
 					<!-- 이름을 클릭하면 메일보내기 -->
@@ -224,23 +230,26 @@ System.out.println("------ List.jsp --- ");
 
 
 
-				<!-- 페이지 처리 start ........................... -->
+				<!-- 페이지 처리 start .................................................................. -->
 				<tr>
-					<td colspan="5" style="text-align: center">
+					<td
+						colspan="5"
+						style="text-align: center">
 
 						<ul class="pagination">
 							<!-- 1. 이전 n개 -->
 							<li>
-								<!-- ----이전 n개 start----- --> <%
+								<!-- ----이전 n개 start------------------------- --> <%
  	if (totalRecord != 0) {// 글이 존재하면
  			if (nowBlock > 0) {// 이전 블럭
- %> <%-- 이전블럭 --%> <a
+ %> <%-- 이전블럭 --------------------------------------------------------------%>
+								<a
 								href="List.jsp?nowBlock=<%=nowBlock - 1%>&
 		 page=<%=((nowBlock - 1) * pagePerBlock + 9)%>&keyField=<%=keyField%>&keyWord=<%=keyWord%>">
 									≪<%=pagePerBlock%>
 							</a> <%
  	}//if
- %> <!-- ----이전 n개 end----- -->
+ %> <!-- ----이전 n개 end----------------------------------------------------------------- -->
 							</li>
 
 							<!-- 2. 탭 목록 -->
@@ -249,17 +258,19 @@ System.out.println("------ List.jsp --- ");
 										for (int i = 0; i < pagePerBlock; i++) {
 							%>
 							<li>
-								<!-- --> <a
+								<!------------------------------------------------------------------------------->
+								<a
 								href="List.jsp?nowBlock=<%=nowBlock%>&page=<%=(nowBlock * pagePerBlock) + i%>">
 									<%=(nowBlock * pagePerBlock) + i + 1%>
-							</a> <!-- --> <!-- --> <%
- 	if (((nowBlock * pagePerBlock) + i + 1) == totalPage) {
- 					//3*10=30+4+1==35
- 					//마지막 페이지 인가
- 					break;//for 탈출 
- 				}//if
- 			}//for
- %>
+							</a> <!--------------------------------------------------------------------->
+								<%
+									if (((nowBlock * pagePerBlock) + i + 1) == totalPage) {
+													//3*10=30+4+1==35
+													//마지막 페이지 인가
+													break;//for 탈출 
+												}//if
+											}//for
+								%>
 							</li>
 
 							<!-- 3. 다음 n개  -->
@@ -290,11 +301,15 @@ System.out.println("------ List.jsp --- ");
 						<div class="pull-right">
 							<!--  -->
 							<!--  -->
-							<a href="Post.jsp" class="btn btn-primary">글쓰기</a>
+							<a
+								href="Post.jsp"
+								class="btn btn-primary">글쓰기</a>
 							<!--  -->
 							<!--  -->
 							<!--  -->
-							<a href="javaScript:list()" class="btn btn-warning">리스트 처음으로</a>
+							<a
+								href="javaScript:list()"
+								class="btn btn-warning">리스트 처음으로</a>
 							<!--  -->
 						</div>
 					</td>
@@ -309,12 +324,18 @@ System.out.println("------ List.jsp --- ");
 
 			<!-- searchform -->
 			<div id="search">
-				<form name="searchForm" action="List.jsp" method="post"
+				<form
+					name="searchForm"
+					action="List.jsp"
+					method="post"
 					class="form-inline">
 
 
 					<div class="form-group">
-						<select name="keyField" id="keyField" class="form-control">
+						<select
+							name="keyField"
+							id="keyField"
+							class="form-control">
 							<option value="subject">글제목</option>
 							<option value="name">글쓴이</option>
 							<option value="content">글내용</option>
@@ -322,13 +343,23 @@ System.out.println("------ List.jsp --- ");
 					</div>
 
 					<div class="form-group">
-						<input type="text" name="keyWord" size="20" class="form-control">
+						<input
+							type="text"
+							name="keyWord"
+							size="20"
+							class="form-control">
 					</div>
 
-					<input type="hidden" name="page" value="0">
+					<input
+						type="hidden"
+						name="page"
+						value="0">
 
 
-					<button type="button" onClick="check()" class="btn btn-success">검색</button>
+					<button
+						type="button"
+						onClick="check()"
+						class="btn btn-success">검색</button>
 
 
 
@@ -345,26 +376,51 @@ System.out.println("------ List.jsp --- ");
 	<!--  -->
 
 	<%--listForm  자바스크립트를 함께 사용 --%>
-	<form name="listForm" method="post">
+	<form
+		name="listForm"
+		method="post">
 		<!--  -->
-		<input type="hidden" name="reload" value="true">
+		<input
+			type="hidden"
+			name="reload"
+			value="true">
 		<!--  -->
-		<input type="hidden" name="page" value="0">
+		<input
+			type="hidden"
+			name="page"
+			value="0">
 		<!--  -->
-		<input type="hidden" name="nowBlock" value="0">
+		<input
+			type="hidden"
+			name="nowBlock"
+			value="0">
 		<!--  -->
 	</form>
 
 	<%--readForm  자바스크립트를 함께 사용 --%>
-	<form name="readForm" method="post">
+	<form
+		name="readForm"
+		method="post">
 		<!-- num값은 javascript 에서 넣었음 -->
-		<input type="hidden" name="num" value="">
+		<input
+			type="hidden"
+			name="num"
+			value="">
 		<!--  -->
-		<input type="hidden" name="page" value="<%=nowPage%>">
+		<input
+			type="hidden"
+			name="nowPage"
+			value="<%=nowPage%>">
 		<!--  -->
-		<input type="hidden" name="keyField" value="<%=keyField%>">
+		<input
+			type="hidden"
+			name="keyField"
+			value="<%=keyField%>">
 		<!--  -->
-		<input type="hidden" name="keyWord" value="<%=keyWord%>">
+		<input
+			type="hidden"
+			name="keyWord"
+			value="<%=keyWord%>">
 		<!--  -->
 	</form>
 
