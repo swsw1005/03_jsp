@@ -22,8 +22,7 @@ System.out.println("------ List.jsp --- ");
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <!-- jquery 3.4.1 -->
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
 <style>
 * {
@@ -97,12 +96,11 @@ System.out.println("------ List.jsp --- ");
 		String keyField = "";//키 필드 
 		String keyWord = "";//검색 단어 
 		Vector<BoardDTO> vec = null;
-		
+
 		if (request.getParameter("nowPage") != null) {
 			//검색어가 있을때
 			nowPage = Integer.parseInt(request.getParameter("nowPage"));
 		}
-		
 
 		if (request.getParameter("keyWord") != null) {
 			//검색어가 있을때
@@ -136,12 +134,6 @@ System.out.println("------ List.jsp --- ");
 		totalPage = (int) (Math.ceil((double) totalRecord / numPerPage));//올림값,전체페이지
 		totalBlock = (int) (Math.ceil((double) totalPage / pagePerBlock));//전체 블럭계산
 
-		System.out.println("beginPerPage " + beginPerPage);
-		System.out.println("nowPage " + nowPage);
-		System.out.println("numPerPage " + numPerPage);
-		System.out.println("totalPage " + totalPage);
-		System.out.println("totalBlock " + totalBlock);
-
 		if (request.getParameter("nowBlock") != null) {
 			nowBlock = Integer.parseInt(request.getParameter("nowBlock"));
 		}
@@ -162,8 +154,8 @@ System.out.println("------ List.jsp --- ");
 			%>
 			<table class="table">
 				<tr>
-					<td colspan="5" align="center">Total:<%=totalRecord%>&nbsp;&nbsp;
-						(<font color="blue"><%=nowPage + 1%>/<%=totalPage%></font>)
+					<td colspan="5" align="center">Total:<%=totalRecord%>&nbsp;&nbsp; (<font
+						color="blue"><%=nowPage + 1%>/<%=totalPage%></font>)
 					</td>
 				</tr>
 
@@ -180,11 +172,19 @@ System.out.println("------ List.jsp --- ");
 
 
 				<%
-					for (int i = beginPerPage; i < beginPerPage + numPerPage; i++) {
+					System.out.print("beginPerPage " + beginPerPage + "  =  ");
+						System.out.print("nowPage " + nowPage + "  *  ");
+						System.out.print("numPerPage " + numPerPage + "\t  \t");
+						System.out.print("nowBlock " + nowBlock + "\t");
+						System.out.print("pagePerBlock " + pagePerBlock + "\t");
+						System.out.print("totalPage " + totalPage + "\t");
+						System.out.println("totalBlock " + totalBlock + "\t");
+
+						for (int i = beginPerPage; i < beginPerPage + numPerPage; i++) {
 							if (i == totalRecord) {
 								break;
 							}//for 탈출
-
+							System.out.println(i + " " + vec.size());
 							BoardDTO dto = vec.get(i);
 
 							String name = dto.getName();
@@ -194,6 +194,7 @@ System.out.println("------ List.jsp --- ");
 
 							int depth = dto.getDepth();
 							int num = dto.getNum();
+							int pos = dto.getPos();
 							int count = dto.getCount();
 				%>
 
@@ -221,7 +222,7 @@ System.out.println("------ List.jsp --- ");
 					<td><a href="mailto:<%=email%>"><%=name%></a></td>
 
 					<td><%=regdate%></td>
-					<td><%=count%></td>
+					<td><%=count%> <%=pos%> <%=num%></td>
 
 				</tr>
 				<%
@@ -240,10 +241,9 @@ System.out.println("------ List.jsp --- ");
 								<!-- ----이전 n개 start------------------------- --> <%
  	if (totalRecord != 0) {// 글이 존재하면
  			if (nowBlock > 0) {// 이전 블럭
- %> <%-- 이전블럭 --------------------------------------------------------------%>
-								<a
-								href="List.jsp?nowBlock=<%=nowBlock - 1%>&page=<%=((nowBlock - 1) * pagePerBlock + 9)%>&keyField=<%=keyField%>&keyWord=<%=keyWord%>">
-									≪<%=pagePerBlock%>
+ %> <%-- 이전블럭 --------------------------------------------------------------%> <a
+								href="List.jsp?nowBlock=<%=nowBlock - 1%>&page=<%=(nowBlock * pagePerBlock - 1)%>&keyField=<%=keyField%>&keyWord=<%=keyWord%>">
+									<%=pagePerBlock%>◀
 							</a> <%
  	}//if
  %> <!-- ----이전 n개 end----------------------------------------------------------------- -->
@@ -278,21 +278,17 @@ System.out.println("------ List.jsp --- ");
  %> <!-- -------------------------------------------------------------------- -->
 								<a
 								href="List.jsp?nowBlock=<%=nowBlock + 1%>&page=<%=(nowBlock + 1) * pagePerBlock%>&keyField=<%=keyField%>&keyWord=<%=keyWord%>">
-									〉〉<%=pagePerBlock%>
+									▶<%=pagePerBlock%>
 							</a> <%
  	}//if 다음블럭 end
  		}//if end
  %> <!-- ----다음 n개 end----- -->
 							</li>
 
-
-
-
 						</ul> <!-- 페이지 카운터 end............ -->
 					</td>
 				</tr>
-				<!-- 페이지 처리 end ........................... -->
-				<!-- 페이지 처리 end ........................... -->
+				<!-- 페이지 처리 end ...........................페이지 처리 end ........................... -->
 
 				<tr>
 					<td colspan="5">
@@ -315,8 +311,7 @@ System.out.println("------ List.jsp --- ");
 
 			<!-- searchform -->
 			<div id="search">
-				<form name="searchForm" action="List.jsp" method="post"
-					class="form-inline">
+				<form name="searchForm" action="List.jsp" method="post" class="form-inline">
 
 
 					<div class="form-group">

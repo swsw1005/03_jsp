@@ -1,9 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%--Post.jsp--%>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Post.jsp</title>
 
 <!-- bootstrap 3.4.1 -->
 <link rel="stylesheet"
@@ -21,32 +25,6 @@
 
 
 
-<script type="text/javascript">
-	function check() {
-		if (document.postForm.name.value == '') {
-			alert("글쓴이를 입력 하시요 ");
-			document.postForm.name.focus();
-			return;
-		}
-		if (document.postForm.subject.value == '') {
-			alert("글제목를 입력 하시요 ");
-			document.postForm.subject.focus();
-			return;
-		}
-		if (document.postForm.content.value == '') {
-			alert("글내용를 입력 하시요 ");
-			document.postForm.content.focus();
-			return;
-		}
-		if (document.postForm.pass.value == '') {
-			alert("암호를 입력 하시요 ");
-			document.postForm.pass.focus();
-			return;
-		}
-		document.postForm.submit();//서버로 전송 
-
-	}//check() end
-</script>
 
 
 
@@ -58,7 +36,7 @@
 	<!-- bootstrap form start////////////////////////////////////////////// -->
 	<div class="container">
 		<h2>글 쓰기</h2>
-		<form action="PostPro.jsp" method="POST">
+		<form action="PostPro.jsp" method="POST" name="postForm">
 			<!-- ////////////////////////////////////////////// -->
 			<div class="form-group">
 				<label for="name">이름</label>
