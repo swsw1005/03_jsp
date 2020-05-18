@@ -32,6 +32,15 @@
 </style>
 <script>
 	// 스크립트
+
+	$(function() {
+		$("#backToView").click(function() {
+			var form = document.updateForm;
+			form.action = "View.jsp";
+			form.submit();
+
+		});
+	});
 </script>
 </head>
 <body>
@@ -44,13 +53,12 @@
 		int nowPage = Integer.parseInt(request.getParameter("nowPage"));
 		String keyField = request.getParameter("keyField");
 		String keyWord = request.getParameter("keyWord");
-		
-		if(keyField ==null)
-			keyField="";
-		if(keyWord ==null)
-			keyWord="";
-		
-		
+
+		if (keyField == null)
+			keyField = "";
+		if (keyWord == null)
+			keyWord = "";
+
 		boardre.BoardDAO dao = new BoardDAO();
 
 		BoardDTO dto = dao.getDto(num);
@@ -58,37 +66,48 @@
 		String content = dto.getContent();
 		String name = dto.getName();
 
-
 		content.replaceAll("<br>", "\n");
 	%>
 
 	<div class="container">
 		<h2>Update</h2>
-		<form action="Update.jsp" method="post">
+		<form action="Update.jsp" method="post" name="updateForm">
 			<!-- 글번호 readOnly -->
 			<div class="form-group">
-				<label for="no">작성자</label> <input value="<%=num%>" type="text"
-					class="form-control" id="num" name="num" readOnly>
+				<label for="no">작성자</label>
+				<!--------------------------------------------------------------------------------->
+				<input value="<%=num%>" type="text" class="form-control" id="num"
+					name="num" readOnly>
 			</div>
 
 			<!-- 제목입력 -->
 			<div class="form-group">
-				<label for="subject">제목</label> <input value="<%=subject%>"
-					type="text" class="form-control" id="subject" name="subject"
-					required="required">
+				<label for="subject">제목</label>
+				<!--------------------------------------------------------------------------------->
+				<input value="<%=subject%>" type="text" class="form-control"
+					id="subject" name="subject" required="required">
 			</div>
 
 			<!-- 내용입력 -->
 			<div class="form-group">
 				<label for="content">내용</label>
+				<!--------------------------------------------------------------------------------->
 				<textarea class="form-control" rows="5" id="content" name="content"
 					required="required" style="resize: none;"><%=content%></textarea>
 			</div>
 
 			<!-- 작성자 입력  readOnly -->
 			<div class="form-group">
-				<label for="name">작성자</label> <input value="<%=name%>" type="text"
-					class="form-control" id="name" name="name" readOnly>
+				<label for="name">작성자</label>
+				<!--------------------------------------------------------------------------------->
+				<input value="<%=name%>" type="text" class="form-control" id="name"
+					name="name" readOnly>
+			</div>
+
+			<!-- 암호 -->
+			<div class="form-group">
+				<label for="pass">암호</label> <input value="" type="password"
+					class="form-control" id="pass" name="pass">
 			</div>
 
 
@@ -100,12 +119,10 @@
 				<!-- 버튼1 -->
 				<a href="List.jsp" class="btn btn-default cancelBtn">목록보기</a>
 				<!-- 버튼2 -->
-				<a href="View.jsp?no=<%=num%>" class="btn btn-default cancelBtn">뒤로 돌아가기</a>
+				<button id="backToView" class="btn btn-default cancelBtn">돌아가기</button>
 			</div>
 
-<br>
-<br>
-			<input type="text" name="num" value="<%=num%>">
+			<br> <br> <input type="text" name="num" value="<%=num%>">
 			<!-- .............................................................................. -->
 			<input type="text" name="nowPage" value="<%=nowPage%>">
 			<!-- .............................................................................. -->

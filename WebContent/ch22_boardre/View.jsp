@@ -21,15 +21,11 @@
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <!-- jquery 3.4.1 -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
 
 <style>
-* {
-	margin: 0px;
-	padding: 0px;
-}
-
 pre {
 	margin: 0px;
 	padding: 0px;
@@ -46,10 +42,54 @@ pre {
 
 		$("#btnToUpdate").click(function() {
 			var form = document.listForm;
-
+			form.action = "UpdateForm.jsp";
 			form.submit();
 		});
 
+		$("#btnToDelete").click(function() {
+			if ($('#passinput').css('display') == 'none') {
+				$('#passinput').show();
+				$('#pass_input').focus();
+			} else {
+				$('#pass_input').val("");
+				$('#passinput').hide();
+			}
+		});
+
+		$("#btnToDelete2").click(function() {
+			var form = document.listForm;
+
+			//colsole.log(form.name);
+
+			var ip1 = $('#pass_input');
+			var ip2 = $('#pass');
+
+			console.log(ip1);
+			console.log(ip2);
+
+			console.log(ip1.val());
+			console.log(ip2.val());
+
+			ip2.val(ip1.val());
+
+			console.log(ip1.val());
+			console.log(ip2.val());
+
+			form.action = "Delete.jsp";
+			form.submit();
+		});
+
+		$("#btnToList").click(function() {
+			var form = document.listForm;
+			form.action = "List.jsp";
+			form.submit();
+		});
+
+		$("#btnToReply").click(function() {
+			var form = document.listForm;
+			form.action = "ReplyForm.jsp";
+			form.submit();
+		});
 	});
 </script>
 </head>
@@ -62,9 +102,16 @@ pre {
 		dao.upPos();
 
 		int num = Integer.parseInt(request.getParameter("num").trim());
-		int nowPage = Integer.parseInt(request.getParameter("nowPage"));
-		String keyField = request.getParameter("keyField");
-		String keyWord = request.getParameter("keyWord");
+		int nowPage = Integer.parseInt(request.getParameter("nowPage")
+				.trim());
+		String keyField = "";
+		String keyWord = "";
+
+		if (request.getParameter("keyWord") != null) {
+			//검색어가 있을때
+			keyField = request.getParameter("keyField");
+			keyWord = request.getParameter("keyWord");
+		}
 
 		dao.upCount(num);//조횟수 증가 메서드 호출 
 		boardre.BoardDTO dto = dao.getDto(num);
@@ -74,10 +121,11 @@ pre {
 		String email = dto.getEmail();
 		String subject = dto.getSubject();
 		String regdate = dto.getRegDate();
-
 		String content = dto.getContent();
 		String ip = dto.getIp();
 		int count = dto.getCount();
+		int depth = dto.getDepth();
+		int pos = dto.getPos();
 	%>
 
 
@@ -107,6 +155,13 @@ pre {
 				<tr>
 					<td colspan="2"><pre><%=dto.getContent()%></pre></td>
 				</tr>
+				<%-- ip --%>
+				<tr>
+					<td colspan="2"><label for="ip">IP주소</label></td>
+				</tr>
+				<tr>
+					<td colspan="2"><pre><%=dto.getIp()%></pre></td>
+				</tr>
 				<%-- writer --%>
 				<tr>
 					<td><label for="writer">작성자</label></td>
@@ -117,6 +172,19 @@ pre {
 					<td><label for="writedate">작성일</label></td>
 					<td><%=dto.getRegDate()%></td>
 				</tr>
+
+				<%-- delete pass hidden --%>
+				<tr id="passinput" style="display: none">
+					<td><label for="pass_input" color="red">암호</label></td>
+					<td>
+						<!-- -------------------------------------------------------------------- -->
+						<input type="password" class="form-control" id="pass_input"
+						name="pass_input" /> <!-- -------------------------------------------------------------------- -->
+						<button id="btnToDelete2" class="btn btn-danger">삭제하기</button>
+					</td>
+				</tr>
+
+
 				<%-- 버튼_그룹 --%>
 				<tr>
 					<td colspan="2">
@@ -125,11 +193,13 @@ pre {
 							<!-- 버튼1 -->
 							<a href="WriteForm.jsp" class="btn btn-default">새 글 쓰기</a>
 							<!-- 버튼2 -->
-							<button id="btnToUpdate" class="btn btn-default cancelBtn">수정하기</button>
+							<button id="btnToUpdate" class="btn btn-default">수정하기</button>
 							<!-- 버튼3 -->
-							<a href="List.jsp" class="btn btn-default cancelBtn">목록보기</a>
+							<button id="btnToList" class="btn btn-default">목록보기</button>
 							<!-- 버튼4 -->
-							<a href="Delete.jsp?no=<%=num%>" class="btn btn-default cancelBtn">삭제하기</a>
+							<button id="btnToDelete" class="btn btn-default cancelBtn">삭제하기</button>
+							<!-- 버튼5 -->
+							<button id="btnToReply" class="btn btn-default">답글 달기</button>
 
 						</div>
 					</td>
@@ -138,33 +208,31 @@ pre {
 			</tbody>
 		</table>
 
-		<br>
-		<br>
+		<br> <br>
 
 
-		<%
-			if (keyWord == null || keyWord.equals("")) {//전체List
-		%>
-		<form name="listForm" method="post" action="UpdateForm.jsp">
-			<input type="text" name="num" value="<%=num%>">
-			<!-- .............................................................................. -->
-			<input type="text" name="nowPage" value="<%=nowPage%>">
-		</form>
-		<%
-			} else {//검색한 경우
-		%>
-		<form name="listForm" method="post" action="UpdateForm.jsp">
-			<input type="text" name="num" value="<%=num%>">
-			<!-- .............................................................................. -->
-			<input type="text" name="nowPage" value="<%=nowPage%>">
-			<!-- .............................................................................. -->
+		<form name="listForm" id="listForm" method="post" action="">
+
+			<%
+				if (!(keyWord == null || keyWord.equals(""))) {//전체List
+			%>
 			<input type="text" name="keyWord" value="<%=keyWord%>">
 			<!-- .............................................................................. -->
 			<input type="text" name="keyField" value="<%=keyField%>">
+			<!-- .............................................................................. -->
+			<%
+				}
+			%>
+
+			<input type="text" name="num" value="<%=num%>">
+			<!-- .............................................................................. -->
+			<input type="text" name="nowPage" value="<%=nowPage%>">
+			<!-- .............................................................................. -->
+			<input type="text" id="pass" name="pass" value="111">
+			<!-- .............................................................................. -->
+			<input type="text" id="depth" name="depth" value="<%=depth%>">
+			<!-- .............................................................................. -->
+			<input type="text" id="pos" name="pos" value="<%=pos%>">
 		</form>
-		<%
-			}//else end
-		%>
-	
 </body>
 </html>

@@ -122,14 +122,12 @@ public class BoardDAO {
 			con = getConnection();
 			stmt = con.createStatement();// Statement는생성
 
-			if (keyWord.equals(null) || keyWord.equals("")
-					|| keyWord.length() < 1) {
+			if (keyWord.equals(null) || keyWord.equals("") || keyWord.length() < 1) {
 				// 전체글
 				sql = "select * from board order by pos asc";
 			} else {
 				// 검색글
-				sql = "select * from board where " + keyField + " like '%"
-						+ keyWord + "%'";
+				sql = "select * from board where " + keyField + " like '%" + keyWord + "%'";
 				sql += " order by pos asc";
 			} // else
 
@@ -177,6 +175,57 @@ public class BoardDAO {
 
 	// ---------------------- // ----------------------
 
+	// reply
+	// start-----------------------------------------------------------------------------
+	public void reply(BoardDTO dto) throws Exception {
+
+		try {
+			// 1+2
+			con = getConnection();
+			// 3. sql
+			String sql = "update board set pos = pos+1 where pos > ?";
+			// 4. 실행객체
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, dto.getPos());
+			// 5. 실행
+			pstmt.executeUpdate();
+
+			// 3. sql
+			sql = "insert into board(name , email , subject , content , pos , depth , regdate , pass , count , ip)";
+			sql += " values(?,?,?,?,?,?,NOW(),?,0,?)";
+
+			pstmt = con.prepareStatement(sql); // 생성하지 않으면 NullPoint Error 가 나온다
+
+			pstmt.setString(1, dto.getName());
+			pstmt.setString(2, dto.getEmail());
+			pstmt.setString(3, dto.getSubject());
+			pstmt.setString(4, dto.getContent());
+			pstmt.setInt(5, dto.getPos());
+			pstmt.setInt(6, dto.getDepth());
+			pstmt.setString(7, dto.getPass());
+			pstmt.setString(8, dto.getIp());
+
+			pstmt.executeUpdate(); // 쿼리 수행
+
+		} catch (Exception ex1) {
+			System.out.println(ex1);
+			ex1.getStackTrace();
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (con != null) {
+					con.close();
+				}
+			} catch (Exception ex2) {
+			}
+
+		} // reply() end------------
+			// reply
+			// end-----------------------------------------------------------------------------
+	}
+
 	public BoardDTO getDto(int no) throws Exception {
 		// 출력객체
 		BoardDTO dto = new BoardDTO();
@@ -194,11 +243,15 @@ public class BoardDAO {
 			if (rs != null) {
 				while (rs.next()) {
 					dto.setNum(rs.getInt("num"));
-					dto.setSubject(rs.getString("subject"));
-					dto.setContent(rs.getString("content"));
 					dto.setName(rs.getString("name"));
+					dto.setEmail(rs.getString("email"));
+					dto.setSubject(rs.getString("subject"));
 					dto.setRegDate(rs.getDate("regdate") + "");
+					dto.setContent(rs.getString("content"));
+					dto.setIp(rs.getString("ip"));
 					dto.setCount(rs.getInt("count"));
+					dto.setDepth(rs.getInt("depth"));
+					dto.setPos(rs.getInt("pos"));
 				}
 			}
 		} catch (Exception e) {
@@ -261,7 +314,123 @@ public class BoardDAO {
 	} // update() end------------
 
 	// ---------------------- // ---------------------- //
-	// ----------------------
+
+	// delete
+	// start-----------------------------------------------------------------------------
+	public void delete(int num) throws Exception {
+
+		try {
+			// 1+2
+			con = getConnection();
+			// 3. sql
+			String sql = "delete from board where num = ?";
+			// 4. 실행객체
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, num);
+			// 5. 실행
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.getStackTrace();
+			throw new Exception("  ");
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (con != null) {
+					con.close();
+				}
+			} catch (Exception ex2) {
+				ex2.getStackTrace();
+			}
+		}
+	}
+
+	// getPass
+	// start-----------------------------------------------------------------------------
+	public String getPass(int num) throws Exception {
+		// 출력객체
+		String result = "";
+
+		try {
+			// 1+2
+			con = getConnection();
+			// 3. sql
+			String sql = "select pass from board where num = ?";
+
+			// 4. 실행객체
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, num);
+			// 5. 실행
+			rs = pstmt.executeQuery();
+			// 6. 표시 --- select 때만 표시
+			if (rs != null) {
+				while (rs.next()) {
+					result = rs.getString("pass").trim();
+				}
+			}
+		} catch (Exception e) {
+			e.getStackTrace();
+			throw new Exception("  ");
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (con != null) {
+					con.close();
+				}
+			} catch (Exception ex2) {
+				ex2.getStackTrace();
+			}
+		}
+		return result;
+	} // getPass() end------------
+		// getPass
+		// end-----------------------------------------------------------------------------
+
+	// resetPass
+	// start-----------------------------------------------------------------------------
+	public void resetPass(int pass) {
+
+		try {
+			// 1+2
+			con = getConnection();
+			// 3. sql
+			String sql = "update board set pass = ?";
+
+			// 4. 실행객체
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, pass);
+			// 5. 실행
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.getStackTrace();
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (con != null) {
+					con.close();
+				}
+			} catch (Exception ex2) {
+				ex2.getStackTrace();
+			}
+		}
+	} // resetPass() end------------
+		// resetPass
+		// end-----------------------------------------------------------------------------
+
 	// 기본 생성자 + 드라이버 확인
 	public BoardDAO() {
 		try {
@@ -286,8 +455,7 @@ public class BoardDAO {
 	} // getConnection() end .............................
 
 	// close 1
-	static final void close(Connection con, PreparedStatement pstmt,
-			ResultSet rs) throws Exception {
+	static final void close(Connection con, PreparedStatement pstmt, ResultSet rs) throws Exception {
 		close(con, pstmt);
 		if (rs != null) {
 			rs.close();
@@ -295,8 +463,7 @@ public class BoardDAO {
 	} // close () end
 
 	// close 2
-	static final void close(Connection con, PreparedStatement pstmt)
-			throws Exception {
+	static final void close(Connection con, PreparedStatement pstmt) throws Exception {
 		if (con != null) {
 			con.close();
 		}
@@ -356,8 +523,7 @@ public class BoardDAO {
 
 			dto.setSubject("제목 : " + i + " -- " + title_list.get(a1));
 			dto.setEmail(title_list.get(a1) + "@naver.com");
-			dto.setContent(dateString + "내용  <br>" + content_list.get(b1)
-					+ "<br>" + content_list.get(b2) + "<br>"
+			dto.setContent(dateString + "내용  <br>" + content_list.get(b1) + "<br>" + content_list.get(b2) + "<br>"
 					+ content_list.get(b3) + "<br>");
 			dto.setIp(ip_1 + "." + ip_2 + "." + ip_3 + "." + ip_4);
 			dto.setName(name_list.get(a2) + i);

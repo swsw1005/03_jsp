@@ -1,9 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%--Post.jsp--%>
-<html>
-<head>
+<%@ page import="java.util.*"%>
+<%@ page import="java.sql.*"%>
 
+<%
+	request.setCharacterEncoding("UTF-8");
+	System.out.println("------ ReplyForm.jsp --- ");
+%>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>ReplyForm.jsp</title>
 
 <!-- bootstrap 3.4.1 -->
 <link rel="stylesheet"
@@ -18,47 +28,55 @@
 </style>
 
 
-
-
-
-<script type="text/javascript">
-	function check() {
-		if (document.postForm.name.value == '') {
-			alert("글쓴이를 입력 하시요 ");
-			document.postForm.name.focus();
-			return;
-		}
-		if (document.postForm.subject.value == '') {
-			alert("글제목를 입력 하시요 ");
-			document.postForm.subject.focus();
-			return;
-		}
-		if (document.postForm.content.value == '') {
-			alert("글내용를 입력 하시요 ");
-			document.postForm.content.focus();
-			return;
-		}
-		if (document.postForm.pass.value == '') {
-			alert("암호를 입력 하시요 ");
-			document.postForm.pass.focus();
-			return;
-		}
-		document.postForm.submit();//서버로 전송 
-
-	}//check() end
+<script>
+	$(function() {
+		$("#btnToWrite").click(function() {
+			var form = document.replyForm;
+			form.action = "Reply.jsp";
+			form.submit();
+		});
+	});
 </script>
-
-
-
-
 </head>
-<body>
 
+
+<%
+	int num = Integer.parseInt(request.getParameter("num").trim());
+	int nowPage = Integer.parseInt(request.getParameter("nowPage")
+			.trim());
+	int depth = Integer.parseInt(request.getParameter("depth").trim()) + 1;
+	int pos = Integer.parseInt(request.getParameter("pos").trim());
+	String keyField = "";
+	String keyWord = "";
+	String ip = request.getParameter("ip");
+	String subject = request.getParameter("subject");
+	String content = request.getParameter("content");
+	String email = request.getParameter("email");
+	String name = request.getParameter("name");
+
+	if (request.getParameter("keyWord") != null) {
+		//검색어가 있을때
+		keyField = request.getParameter("keyField");
+		keyWord = request.getParameter("keyWord");
+	}
+
+	System.out.println("num " + num);
+	System.out.println("nowPage " + nowPage);
+	System.out.println("keyField " + keyField);
+	System.out.println("keyWord " + keyWord);
+	System.out.println("depth " + depth);
+	System.out.println("ip " + ip);
+	System.out.println("pos " + pos);
+%>
+
+
+<body>
+	<!-- 내용 -->
 
 	<!-- bootstrap form start////////////////////////////////////////////// -->
 	<div class="container">
-		<h2>글 쓰기</h2>
-		<form action="PostPro.jsp" method="POST">
+		<h2>ReplyForm</h2>
+		<form action="" method="POST" name="replyForm">
 			<!-- ////////////////////////////////////////////// -->
 			<div class="form-group">
 				<label for="name">이름</label>
@@ -94,22 +112,37 @@
 					class="form-control" required="required">
 			</div>
 			<!-- ////////////////////////////////////////////// -->
-
 			<div class="btn-group">
 				<!-- ----------------------------------------------------------------------------- -->
-				<input type="submit" value="저장&쓰기" class="btn btn-default" />
+				<button id="btnToWrite" class="btn btn-success">답글 입력</button>
 				<!-- ----------------------------------------------------------------------------- -->
 				<input type="reset" value="내용 지우기" class="btn btn-default" />
 				<!-- ----------------------------------------------------------------------------- -->
-				<a href="List.jsp" class="btn btn-default">목록으로</a>
+				<a href="List.jsp" class="btn btn-default cancelBtn">목록으로</a>
 			</div>
+
+			<br> <br>
 			<!-- ////////////////////////////////////////////// -->
 			<input type="text" name="ip" value="<%=request.getRemoteAddr()%>"
 				class="form-control">
 			<!-- ////////////////////////////////////////////// -->
+			<input type="text" name="num" value="<%=num%>" class="form-control">
+			<!-- ////////////////////////////////////////////// -->
+			<input type="text" name="depth" value="<%=depth%>" class="form-control">
+			<!-- ////////////////////////////////////////////// -->
+			<input type="text" name="keyField" value="<%=keyField%>" class="form-control">
+			<!-- ////////////////////////////////////////////// -->
+			<input type="text" name="keyWord" value="<%=keyWord%>" class="form-control">
+			<!-- ////////////////////////////////////////////// -->
+			<input type="text" name="nowPage" value="<%=nowPage%>" class="form-control">
+			<!-- ////////////////////////////////////////////// -->
+			<input type="text" name="pos" value="<%=pos%>">
+			<!-- ////////////////////////////////////////////// -->
 		</form>
 	</div>
 	<!-- bootstrap form end ////////////////////////////////////////////// -->
+
+
 
 
 
